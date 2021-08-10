@@ -12,13 +12,18 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class ItemListHandler {
+    public String fileName = "citiesBook.xml";
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
 
     public List<Item> getListItems() {
         List<Item> items = new ArrayList<>();
 
         SAXParserFactory factory = SAXParserFactory.newInstance();
 
-        try (InputStream is = getXMLFileAsStream()) {
+        try (InputStream is = getXMLFileAsStream(fileName)) {
 
             SAXParser saxParser = factory.newSAXParser();
             SaxParseToList handler = new SaxParseToList();
@@ -46,13 +51,7 @@ public class ItemListHandler {
                 .collect(Collectors.groupingBy(Item::getCity, Collectors.groupingBy(Item::getFloor, Collectors.counting())));
     }
 
-    private static InputStream getXMLFileAsStream() {
-        return CityParser.class.getClassLoader().getResourceAsStream("citiesBook.xml");
+    private static InputStream getXMLFileAsStream(String fileName) {
+        return CityParser.class.getClassLoader().getResourceAsStream(fileName);
     }
 }
-
-/*
-Одно обращение к БД
-Вывод результатов сделать читаемым
-
- */
