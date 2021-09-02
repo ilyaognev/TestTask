@@ -1,0 +1,15 @@
+.idea
+out
+target
+*.iml
+logs
+*.patch
+doc
+
+# Database
+*.db
+
+# Gradle
+.gradle
+gradle
+build
