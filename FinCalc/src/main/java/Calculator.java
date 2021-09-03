@@ -1,19 +1,22 @@
+import java.io.*;
+import java.util.Properties;
+
 public class Calculator {
-    private String inputData;
-    private final double dollarToEuro = 0.8;
-    private final double euroToDollar = 1.5;
+    private final String inputData;
+    private double dollarToEuro = 0;
+    private double euroToDollar = 0;
 
     public Calculator(String inputData) {
         this.inputData = inputData;
-        //Данные для тестирования:
-//        this.inputData = "toEuro($10.00)";//assert->8eur
-//        this.inputData = "toDollar(5eur)";//assert->$7.5
-//        this.inputData = "toDollar(toEuro($10.00)+5eur)";//assert->$19.5
-//        this.inputData = "toDollar(toEuro($10.00)-5eur)";//assert->$4.5
-//        this.inputData = "toDollar(5eur+toEuro($10.00))";//assert->$19.5
-//        this.inputData = "toDollar(5eur-toEuro($10.00))";//assert->-$4.5
-//        this.inputData = "toDollar(toEuro($10.00))";//assert->$12
-//        this.inputData = "5eur-toEuro($10.00)";//assert->-3eur
+        try (InputStream inputStream = new FileInputStream("src/main/resources/config.properties")){
+            Properties prop = new Properties();
+            prop.load(inputStream);
+            this.dollarToEuro = Double.parseDouble(prop.getProperty("dollarToEuro"));
+            this.euroToDollar = Double.parseDouble(prop.getProperty("euroToDollar"));
+        } catch (IOException e){
+            System.out.println("Where our file?");
+        }
+
     }
 
     public String getResult() {
